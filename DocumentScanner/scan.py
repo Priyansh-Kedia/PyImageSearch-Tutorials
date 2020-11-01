@@ -21,6 +21,7 @@ in the image
 gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 gray = cv.GaussianBlur(gray, (5,5),0)
 edged = cv.Canny(gray, 75, 200)
+# edged = auto_canny(gray)
 
 # Show the original and the edge detected image
 cv.imshow("Image", image)
@@ -40,7 +41,7 @@ contours = sorted(contours, key=cv.contourArea, reverse=True)[:5]
 for c in contours:
     perimeter = cv.arcLength(c, True)
     approx = cv.approxPolyDP(c, 0.02*perimeter, True)
-
+    print(approx)
     # If the polygon has 4 sides, we have our document
     if len(approx) == 4:
         screenCount = approx
@@ -60,7 +61,7 @@ warped = four_point_transform(original, screenCount.reshape(4,2) * ratio)
 Applying grayscale to the warped image, then threshold it
 """
 warped = cv.cvtColor(warped, cv.COLOR_BGR2GRAY)
-T = threshold_local(warped, 11, offset=10, method='gaussian')
+T = threshold_local(warped, 21, offset=3, method='gaussian')
 warped = (warped > T).astype('uint8') * 255
 
 cv.imshow("original", resize(original, height=650))

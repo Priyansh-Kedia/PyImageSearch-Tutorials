@@ -78,3 +78,14 @@ def rotate_bound(image, angle):
     M[1,2] += (nH / 2) - cY
 
     return cv.warpAffine(image, M, (nW, nH))
+
+def auto_canny(image, sigma=0.33):
+    # Compute the median of the single channel pixel intensities
+    v = np.median(image)
+
+    # Apply automatic Canny edge detection using the computed median
+    lower = int(max(0, (1.0 - sigma) * v))
+    upper = int(min(255, (1.0 + sigma) * v))
+    edged = cv.Canny(image, lower, upper)
+
+    return edged
