@@ -14,17 +14,17 @@ def order_points(points):
     The top-left point will have the smallest sum, where as the 
     bottom-right point will have the largest sum among all four
     """
-    sum = pts.sum(axis=1)
-    rect[0] = pts[np.argmin(sum)]
-    rect[2] = pts(np.argmax(sum))
+    sum = points.sum(axis=1)
+    rect[0] = points[np.argmin(sum)]
+    rect[2] = points[np.argmax(sum)]
 
     """
     The top-right will have the smallest difference, and 
     the bottom-left will have the largest difference
     """
-    difference = np.diff(pts, axis=1)
-    rect[1] = pts[np.argmin(difference)]
-    rect[3] = pts[np.argmax(difference)]
+    difference = np.diff(points, axis=1)
+    rect[1] = points[np.argmin(difference)]
+    rect[3] = points[np.argmax(difference)]
 
     return rect
 

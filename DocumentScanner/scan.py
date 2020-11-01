@@ -50,3 +50,19 @@ cv.drawContours(image, [screenCount], -1, (0, 255, 0), 2)
 cv.imshow("Outline", image)
 cv.waitKey(0)
 cv.destroyAllWindows()
+
+"""
+Applying the bird-eye view to the scanned document
+"""
+warped = four_point_transform(original, screenCount.reshape(4,2) * ratio)
+
+"""
+Applying grayscale to the warped image, then threshold it
+"""
+warped = cv.cvtColor(warped, cv.COLOR_BGR2GRAY)
+T = threshold_local(warped, 11, offset=10, method='gaussian')
+warped = (warped > T).astype('uint8') * 255
+
+cv.imshow("original", resize(original, height=650))
+cv.imshow("warped", resize(warped, height=650))
+cv.waitKey(0)
