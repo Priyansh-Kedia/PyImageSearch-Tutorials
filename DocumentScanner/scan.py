@@ -43,6 +43,7 @@ for c in contours:
     approx = cv.approxPolyDP(c, 0.02*perimeter, True)
     print(approx)
     # If the polygon has 4 sides, we have our document
+    print(len(approx))
     if len(approx) == 4:
         screenCount = approx
         break
@@ -61,7 +62,8 @@ warped = four_point_transform(original, screenCount.reshape(4,2) * ratio)
 Applying grayscale to the warped image, then threshold it
 """
 warped = cv.cvtColor(warped, cv.COLOR_BGR2GRAY)
-T = threshold_local(warped, 21, offset=3, method='gaussian')
+# T = threshold_local(warped, 21, offset=3, method='gaussian')
+T = cv.adaptiveThreshold(warped, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV,5 ,5)
 warped = (warped > T).astype('uint8') * 255
 
 cv.imshow("original", resize(original, height=650))
