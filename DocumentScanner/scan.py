@@ -41,9 +41,7 @@ contours = sorted(contours, key=cv.contourArea, reverse=True)[:5]
 for c in contours:
     perimeter = cv.arcLength(c, True)
     approx = cv.approxPolyDP(c, 0.02*perimeter, True)
-    print(approx)
     # If the polygon has 4 sides, we have our document
-    print(len(approx))
     if len(approx) == 4:
         screenCount = approx
         break
